@@ -33,6 +33,36 @@ BST.prototype.insertRecursion = function(val) {
   return;
 };
 
+BST.prototype.insertLoop = function(val) {
+  if (this.value === undefined) {
+    this.value = val;
+  } else {
+    // let left = true;
+    let parent = this;
+    let child = this;
+    while (child !== null) {
+      if (val < child.value) {
+        parent = child;
+        child = child.left;
+      } else if (val > child.value) {
+        parent = child;
+        child = child.right;
+      } else {
+        return `Node already exists!`;
+      }
+    }
+
+    let node = new BST(val);
+    if (val < parent.value) {
+      parent.left = node;
+    } else {
+      parent.right = node;
+    }
+  }
+
+  return;
+};
+
 BST.prototype.printLevelOrder = function() {
   if (this === null) {
     return `Empty BST..`;
@@ -40,7 +70,7 @@ BST.prototype.printLevelOrder = function() {
   let nodes = [];
   let que = new Queue();
   que.add(this);
-  console.log("entering while loop...");
+  console.log('entering while loop...');
   while (!que.isEmpty()) {
     let node = que.pop();
     nodes.push(node.value);
@@ -59,6 +89,7 @@ BST.prototype.printLevelOrder = function() {
 // TEST
 
 let bst = new BST();
+/*
 bst.insertRecursion(4);
 bst.insertRecursion(2);
 bst.insertRecursion(6);
@@ -66,5 +97,13 @@ bst.insertRecursion(1);
 bst.insertRecursion(3);
 bst.insertRecursion(5);
 bst.insertRecursion(7);
+*/
+bst.insertLoop(4);
+bst.insertLoop(2);
+bst.insertLoop(6);
+bst.insertLoop(1);
+bst.insertLoop(3);
+bst.insertLoop(5);
+bst.insertLoop(7);
 console.log(bst);
 bst.printLevelOrder();
